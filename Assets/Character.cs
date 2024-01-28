@@ -9,6 +9,11 @@ public class Character : MonoBehaviour
     public Animator anim;
     public bool CanDie;
     public bool smited;
+    public AudioSource flickSound;
+    public AudioSource terminateSound;
+    public AudioSource smiteSound;
+    public bool waitForFlick;
+
     // Start is called before the first frame update
     void Start()
     {
