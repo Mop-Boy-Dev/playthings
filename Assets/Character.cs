@@ -8,13 +8,23 @@ public class Character : MonoBehaviour
     public string characterName;
     public Animator anim;
     public bool CanDie;
+    public bool smited;
     // Start is called before the first frame update
     void Start()
     {
+        smited = false;
         anim = gameObject.GetComponent<Animator>();
         //anim.SetTrigger("Idle");
 
     }
+
+    public void KillOutsideofSmite()
+    {
+        smited = true;
+
+        anim.SetBool("Idle", false);
+    }
+
 
 
 }
