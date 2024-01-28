@@ -22,10 +22,12 @@ public class GameManager : MonoBehaviour
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         text.text = curCharacter.characterName;
         index = 0;
+
     }
 
     public void PlayFlickAnim()
     {
+        
         if(!curCharacter.waitForFlick)
         {
             
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
     {
         if (!curCharacter.CanDie || !curCharacter.smited)
         {
-            if (curCharacter.terminateSound.clip != null)
+            if (curCharacter.terminateSound)
             {
                 curCharacter.terminateSound.Play();
             }
@@ -66,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         curCharacter.smited = true;
         smiteSound.Play();
-        if(curCharacter.smiteSound.clip!=null)
+        if(curCharacter.smiteSound)
         {
             curCharacter.smiteSound.Play();
         }
@@ -76,6 +78,11 @@ public class GameManager : MonoBehaviour
 
     public void NextCharacter()
     {
+        if(curCharacter.numForms != 0 && curCharacter.currentForm < curCharacter.numForms)
+        {
+            curCharacter.currentForm++;
+            curCharacter.NextAppearance(curCharacter.currentForm);
+        }
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         index++;
         if (index == characters.Length)
@@ -117,6 +124,9 @@ public class GameManager : MonoBehaviour
     public void EndFlick()
     {
         flicking = false;
+
     }
+
+
     
 }
