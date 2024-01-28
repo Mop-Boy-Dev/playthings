@@ -10,12 +10,13 @@ public class GameManager : MonoBehaviour
     private bool smited;
     private int index;
     public Text text;
+    public AudioSource smiteSound;
     // Start is called before the first frame update
     void Start()
     {
         smited = false;
         curCharacter = characters[0];
-        curCharacter.gameObject.SetActive(true);
+        curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         text.text = curCharacter.characterName;
         index = 0;
     }
@@ -40,12 +41,14 @@ public class GameManager : MonoBehaviour
     public void Smite()
     {
         smited = true;
-        curCharacter.anim.SetTrigger("Smite");
+        smiteSound.Play();
+        curCharacter.anim.SetBool("Smite", true);
+        curCharacter.anim.SetBool("Idle", false);
     }
 
     public void NextCharacter()
     {
-        curCharacter.gameObject.SetActive(false);
+        curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         index++;
         if (index == characters.Length)
         {
@@ -53,14 +56,17 @@ public class GameManager : MonoBehaviour
         }
         curCharacter = characters[index];
         text.text = curCharacter.characterName;
-        curCharacter.gameObject.SetActive(true);
-        curCharacter.anim.SetTrigger("Idle");
+        curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        curCharacter.anim.ResetTrigger("Flick");
+        curCharacter.anim.ResetTrigger("Terminate");
+        curCharacter.anim.SetBool("Smite", false);
+        curCharacter.anim.SetBool("Idle",true);
         smited = false;
     }
 
     public void PreviousCharacter()
     {
-        curCharacter.gameObject.SetActive(false);
+        curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         index--;
         if (index == -1)
         {
@@ -68,8 +74,11 @@ public class GameManager : MonoBehaviour
         }
         curCharacter = characters[index];
         text.text = curCharacter.characterName;
-        curCharacter.gameObject.SetActive(true);
-        curCharacter.anim.SetTrigger("Idle");
+        curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        curCharacter.anim.ResetTrigger("Flick");
+        curCharacter.anim.ResetTrigger("Terminate");
+        curCharacter.anim.SetBool("Smite", false);
+        curCharacter.anim.SetBool("Idle", true);
         smited = false;
     }
 }
