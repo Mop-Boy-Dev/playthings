@@ -10,21 +10,43 @@ public class GameManager : MonoBehaviour
     private int index;
     public Text text;
     public AudioSource smiteSound;
+    public AudioSource flickSound;
+    Animator effectAnim;
+    private bool flicking;
     // Start is called before the first frame update
     void Start()
     {
+        flicking = false;
+        effectAnim = gameObject.GetComponent<Animator>();
         curCharacter = characters[0];
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         text.text = curCharacter.characterName;
         index = 0;
     }
 
-    
+    public void PlayFlickAnim()
+    {
+        if(!curCharacter.waitForFlick)
+        {
+            
+            Flick();
+            flicking = true;
+
+        }
+        effectAnim.SetTrigger("Flick");
+    }
     public void Flick()
     {
-        if (!curCharacter.CanDie || !curCharacter.smited)
+        if (!flicking)
         {
-            curCharacter.anim.SetTrigger("Flick");
+            if (!curCharacter.CanDie || !curCharacter.smited)
+            {
+                if (curCharacter.flickSound)
+                {
+                    curCharacter.flickSound.Play();
+                }
+                curCharacter.anim.SetTrigger("Flick");
+            }
         }
     }
 
@@ -32,6 +54,10 @@ public class GameManager : MonoBehaviour
     {
         if (!curCharacter.CanDie || !curCharacter.smited)
         {
+            if (curCharacter.terminateSound.clip != null)
+            {
+                curCharacter.terminateSound.Play();
+            }
             curCharacter.anim.SetTrigger("Terminate");
         }
     }
@@ -40,6 +66,10 @@ public class GameManager : MonoBehaviour
     {
         curCharacter.smited = true;
         smiteSound.Play();
+        if(curCharacter.smiteSound.clip!=null)
+        {
+            curCharacter.smiteSound.Play();
+        }
         curCharacter.anim.SetBool("Smite", true);
         curCharacter.anim.SetBool("Idle", false);
     }
@@ -79,11 +109,14 @@ public class GameManager : MonoBehaviour
         curCharacter.anim.SetBool("Idle", true);
         curCharacter.smited = false;
     }
-
-    public void KillOutsideofSmite()
+    public void PlayFlickSound()
     {
-        curCharacter.smited = true;
-        
-        curCharacter.anim.SetBool("Idle", false);
+        flickSound.Play();
     }
+
+    public void EndFlick()
+    {
+        flicking = false;
+    }
+    
 }
