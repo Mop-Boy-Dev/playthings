@@ -11,8 +11,10 @@ public class GameManager : MonoBehaviour
     public Text text;
     public AudioSource smiteSound;
     public AudioSource flickSound;
+    public AudioSource terminateSound;
     Animator effectAnim;
     private bool flicking;
+    public Animator cameraAnim;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
             flicking = true;
 
         }
+
         effectAnim.SetTrigger("Flick");
     }
     public void Flick()
@@ -43,6 +46,11 @@ public class GameManager : MonoBehaviour
         {
             if (!curCharacter.CanDie || !curCharacter.smited)
             {
+
+                if (curCharacter.idleSound && curCharacter.idleSound.isPlaying)
+                {
+                    curCharacter.idleSound.Stop();
+                }
                 if (curCharacter.flickSound)
                 {
                     curCharacter.flickSound.Play();
@@ -56,10 +64,16 @@ public class GameManager : MonoBehaviour
     {
         if (!curCharacter.CanDie || !curCharacter.smited)
         {
+            if (curCharacter.idleSound && curCharacter.idleSound.isPlaying)
+            {
+                curCharacter.idleSound.Stop();
+            }
             if (curCharacter.terminateSound)
             {
                 curCharacter.terminateSound.Play();
             }
+            effectAnim.ResetTrigger("Flick");
+            terminateSound.Play();
             curCharacter.anim.SetTrigger("Terminate");
         }
     }
@@ -67,10 +81,19 @@ public class GameManager : MonoBehaviour
     public void Smite()
     {
         curCharacter.smited = true;
+        if (curCharacter.idleSound && curCharacter.idleSound.isPlaying)
+        {
+            curCharacter.idleSound.Stop();
+        }
         smiteSound.Play();
         if(curCharacter.smiteSound)
         {
             curCharacter.smiteSound.Play();
+        }
+        effectAnim.ResetTrigger("Flick");
+        if (curCharacter.gameObject.name != "spinbo scrumpants")
+        {
+            cameraAnim.SetTrigger("Shake");
         }
         curCharacter.anim.SetBool("Smite", true);
         curCharacter.anim.SetBool("Idle", false);
@@ -97,6 +120,10 @@ public class GameManager : MonoBehaviour
         curCharacter.anim.SetBool("Smite", false);
         curCharacter.anim.SetBool("Idle",true);
         curCharacter.smited = false;
+        if(curCharacter.idleSound)
+        {
+            curCharacter.idleSound.Play();
+        }
     }
 
     public void PreviousCharacter()
@@ -115,6 +142,10 @@ public class GameManager : MonoBehaviour
         curCharacter.anim.SetBool("Smite", false);
         curCharacter.anim.SetBool("Idle", true);
         curCharacter.smited = false;
+        if (curCharacter.idleSound)
+        {
+            curCharacter.idleSound.Play();
+        }
     }
     public void PlayFlickSound()
     {

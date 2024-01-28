@@ -12,6 +12,7 @@ public class Character : MonoBehaviour
     public AudioSource flickSound;
     public AudioSource terminateSound;
     public AudioSource smiteSound;
+    public AudioSource idleSound;
     public bool waitForFlick;
     public int numForms;
     public int currentForm;
