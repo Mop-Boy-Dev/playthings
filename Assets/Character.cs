@@ -13,7 +13,8 @@ public class Character : MonoBehaviour
     public AudioSource terminateSound;
     public AudioSource smiteSound;
     public bool waitForFlick;
-
+    public int numForms;
+    public int currentForm;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +31,9 @@ public class Character : MonoBehaviour
         anim.SetBool("Idle", false);
     }
 
+    virtual public void NextAppearance(int num)
+    {
 
+    }
 
 }
