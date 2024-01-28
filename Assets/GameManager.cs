@@ -7,14 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public Character[] characters;
     private Character curCharacter;
-    private bool smited;
     private int index;
     public Text text;
     public AudioSource smiteSound;
     // Start is called before the first frame update
     void Start()
     {
-        smited = false;
         curCharacter = characters[0];
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         text.text = curCharacter.characterName;
@@ -24,7 +22,7 @@ public class GameManager : MonoBehaviour
     
     public void Flick()
     {
-        if (!curCharacter.CanDie || !smited)
+        if (!curCharacter.CanDie || !curCharacter.smited)
         {
             curCharacter.anim.SetTrigger("Flick");
         }
@@ -32,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     public void Terminate()
     {
-        if (!curCharacter.CanDie || !smited)
+        if (!curCharacter.CanDie || !curCharacter.smited)
         {
             curCharacter.anim.SetTrigger("Terminate");
         }
@@ -40,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     public void Smite()
     {
-        smited = true;
+        curCharacter.smited = true;
         smiteSound.Play();
         curCharacter.anim.SetBool("Smite", true);
         curCharacter.anim.SetBool("Idle", false);
@@ -61,7 +59,7 @@ public class GameManager : MonoBehaviour
         curCharacter.anim.ResetTrigger("Terminate");
         curCharacter.anim.SetBool("Smite", false);
         curCharacter.anim.SetBool("Idle",true);
-        smited = false;
+        curCharacter.smited = false;
     }
 
     public void PreviousCharacter()
@@ -79,6 +77,13 @@ public class GameManager : MonoBehaviour
         curCharacter.anim.ResetTrigger("Terminate");
         curCharacter.anim.SetBool("Smite", false);
         curCharacter.anim.SetBool("Idle", true);
-        smited = false;
+        curCharacter.smited = false;
+    }
+
+    public void KillOutsideofSmite()
+    {
+        curCharacter.smited = true;
+        
+        curCharacter.anim.SetBool("Idle", false);
     }
 }
