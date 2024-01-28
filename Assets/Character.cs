@@ -37,4 +37,9 @@ public class Character : MonoBehaviour
 
     }
 
+    public void PlayDogBite() //this only happens for sweet king
+    {
+        flickSound.Play();
+    }
+
 }

@@ -37,8 +37,14 @@ public class GameManager : MonoBehaviour
             flicking = true;
 
         }
-
-        effectAnim.SetTrigger("Flick");
+        if (curCharacter.gameObject.name == "sweet king")
+        {
+            effectAnim.SetTrigger("DogFlick");
+        }
+        else
+        {
+            effectAnim.SetTrigger("Flick");
+        }
     }
     public void Flick()
     {
@@ -51,7 +57,7 @@ public class GameManager : MonoBehaviour
                 {
                     curCharacter.idleSound.Stop();
                 }
-                if (curCharacter.flickSound)
+                if (curCharacter.flickSound && curCharacter.gameObject.name != "sweet king")
                 {
                     curCharacter.flickSound.Play();
                 }
