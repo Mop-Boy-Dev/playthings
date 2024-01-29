@@ -36,9 +36,14 @@ public class Character : MonoBehaviour
     {
 
     }
+    public void PlayDogGrowl()
+    {
+        idleSound.Play();
+    }
 
     public void PlayDogBite() //this only happens for sweet king
     {
+        idleSound.Stop();
         flickSound.Play();
     }
 

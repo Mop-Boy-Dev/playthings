@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     {
         flicking = false;
         effectAnim = gameObject.GetComponent<Animator>();
+        foreach (Character character in characters)
+        {
+            character.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        }
         curCharacter = characters[0];
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         text.text = curCharacter.characterName;
@@ -112,6 +116,10 @@ public class GameManager : MonoBehaviour
             curCharacter.currentForm++;
             curCharacter.NextAppearance(curCharacter.currentForm);
         }
+        if (curCharacter.idleSound && curCharacter.idleSound.isPlaying)
+        {
+            curCharacter.idleSound.Stop();
+        }
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         index++;
         if (index == characters.Length)
@@ -139,6 +147,10 @@ public class GameManager : MonoBehaviour
         if (index == -1)
         {
             index = characters.Length - 1;
+        }
+        if (curCharacter.idleSound && curCharacter.idleSound.isPlaying)
+        {
+            curCharacter.idleSound.Stop();
         }
         curCharacter = characters[index];
         text.text = curCharacter.characterName;
