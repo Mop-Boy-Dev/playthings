@@ -110,6 +110,15 @@ public class GameManager : MonoBehaviour
             var prevScale = curCharacter.gameObject.GetComponent<Transform>().localScale;
             curCharacter.gameObject.GetComponent<Transform>().localScale = new Vector3(prevScale.x * 1.4f, prevScale.y * 1.4f, prevScale.z * 1.4f);
         }
+        if (curCharacter.gameObject.name == "the faceless one ")
+        {
+            if (curCharacter.anim.GetBool("Smite"))
+            {
+                curCharacter.anim.SetBool("Smite", false);
+                curCharacter.anim.SetBool("Idle", true);
+                return;
+            }
+        }
         curCharacter.anim.SetBool("Smite", true);
         curCharacter.anim.SetBool("Idle", false);
     }
