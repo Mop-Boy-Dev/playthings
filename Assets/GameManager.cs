@@ -105,6 +105,11 @@ public class GameManager : MonoBehaviour
         {
             cameraAnim.SetTrigger("Shake");
         }
+        if (curCharacter.gameObject.name == "sweet king")
+        {
+            var prevScale = curCharacter.gameObject.GetComponent<Transform>().localScale;
+            curCharacter.gameObject.GetComponent<Transform>().localScale = new Vector3(prevScale.x * 1.4f, prevScale.y * 1.4f, prevScale.z * 1.4f);
+        }
         curCharacter.anim.SetBool("Smite", true);
         curCharacter.anim.SetBool("Idle", false);
     }
@@ -128,6 +133,7 @@ public class GameManager : MonoBehaviour
         }
         curCharacter = characters[index];
         text.text = curCharacter.characterName;
+        curCharacter.gameObject.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         curCharacter.anim.ResetTrigger("Flick");
         curCharacter.anim.ResetTrigger("Terminate");
@@ -154,6 +160,7 @@ public class GameManager : MonoBehaviour
         }
         curCharacter = characters[index];
         text.text = curCharacter.characterName;
+        curCharacter.gameObject.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
         curCharacter.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         curCharacter.anim.ResetTrigger("Flick");
         curCharacter.anim.ResetTrigger("Terminate");
